@@ -1,0 +1,49 @@
+INCLUDE_REGULAR_EXPRESSION("^.*$")
+
+SET(JPEGLS_SRCS
+  global.c
+  jpegmark.c
+  initialize.c
+  lossless_d.c
+  lossless_e.c
+  lossy_d.c
+  lossy_e.c
+  bitio.c
+  melcode.c
+  )
+
+# Do the -fno-common magic
+IF(APPLE)
+  FOREACH(f ${JPEGLS_SRCS})
+    SET_SOURCE_FILES_PROPERTIES(
+      "${CMAKE_CURRENT_SOURCE_DIR}/${f}"
+      PROPERTIES COMPILE_FLAGS -fno-common)
+  ENDFOREACH(f)
+ENDIF(APPLE)
+
+
+# Build library
+ADD_LIBRARY(${JPEGLS_LIBRARY_NAME} ${JPEGLS_SRCS})
+SET_TARGET_PROPERTIES(${JPEGLS_LIBRARY_NAME} PROPERTIES ${JPEGLS_LIBRARY_PROPERTIES})
+
+# Build decompressor executable
+ADD_EXECUTABLE(locod decoder.c)
+TARGET_LINK_LIBRARIES(locod ${JPEGLS_LIBRARY_NAME})
+SET_TARGET_PROPERTIES(locod PROPERTIES ${JPEGLS_LIBRARY_PROPERTIES})
+
+# Build decompressor executable
+ADD_EXECUTABLE(locoe encoder.c)
+TARGET_LINK_LIBRARIES(locoe ${JPEGLS_LIBRARY_NAME})
+IF(UNIX)
+  TARGET_LINK_LIBRARIES(locoe m)
+ENDIF(UNIX)
+SET_TARGET_PROPERTIES(locoe PROPERTIES ${JPEGLS_LIBRARY_PROPERTIES})
+
+
+# Install lib
+INSTALL_TARGETS(/lib/ ${JPEGLS_LIBRARY_NAME})
+
+# Install exe
+INSTALL_TARGETS(/bin/ locod)
+INSTALL_TARGETS(/bin/ locoe)
+
