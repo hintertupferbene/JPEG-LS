@@ -1,0 +1,2 @@
+* decoder.c is leaking
+* do the export magic on WIN32 to be able to build shared lib
