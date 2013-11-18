@@ -54,6 +54,23 @@
 #include "global.h"
 #include <string.h>
 #include "jpegmark.h"
+#include <time.h>
+
+
+
+struct timespec diff(struct timespec start, struct timespec end)
+{
+	struct timespec temp;
+	if ((end.tv_nsec-start.tv_nsec)<0) {
+		temp.tv_sec = end.tv_sec-start.tv_sec-1;
+		temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+	} else {
+		temp.tv_sec = end.tv_sec-start.tv_sec;
+		temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+	}
+	return temp;
+}
+
 
 #define  PGMNAME PGMPREFIX "d"
 #define  EPGMNAME PGMPREFIX "e"
@@ -876,7 +893,10 @@ int initialize(int argc, char *argv[])
 int main (int argc, char *argv[]) {
   int n,n_c,n_r,my_i,n_s,mk,seek_return;
   int found_EOF = 0;
-  double t0, t1;
+  
+  //double t0, t1;
+  struct timespec time1, time2;
+  
   long pos0, pos1,    
     tot_in = 0,
     tot_out = 0;
@@ -892,7 +912,8 @@ int main (int argc, char *argv[]) {
 
 
   /* start timer (must be AFTER initialize()) */
-  t0 = get_utime();
+  //t0 = get_utime();
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 
 
   /* Initialize the scanline buffers */
@@ -1461,11 +1482,15 @@ int main (int argc, char *argv[]) {
   closebuffers(MULTI);
 
 
-  t1 = get_utime();
+  //t1 = get_utime();
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+  
+  double time_elapsed = diff(time1,time2).tv_sec + diff(time1,time2).tv_nsec / 1e9;
+  
   fprintf(msgfile,"Total bits  in: %ld  Symbols out: %ld  %5.3f bps\n",
            tot_in,tot_out,tot_in/(double)tot_out);
-  fprintf(msgfile,"Time = %1.3f secs : %1.0f KSymbols/sec\n",t1-t0,
-          (tot_out)/(1024*(t1-t0)));
+  fprintf(msgfile,"Time = %1.6f secs : %1.0f KSymbols/sec\n",time_elapsed,
+		  (tot_out)/(1024*(time_elapsed)));
 
   if ( found_EOF )
     exit(0);

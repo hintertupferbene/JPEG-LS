@@ -56,6 +56,24 @@
 #include "math.h"
 #include "string.h"
 #include "jpegmark.h"
+#include <time.h>
+
+
+
+struct timespec diff(struct timespec start, struct timespec end)
+{
+	struct timespec temp;
+	if ((end.tv_nsec-start.tv_nsec)<0) {
+		temp.tv_sec = end.tv_sec-start.tv_sec-1;
+		temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+	} else {
+		temp.tv_sec = end.tv_sec-start.tv_sec;
+		temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+	}
+	return temp;
+}
+
+
 
 static const char banner[] ="\n\
 =============================================\n\
@@ -674,6 +692,9 @@ int main (int argc, char *argv[])
 {
   int n,n_c,n_r,my_i, number_of_scans, n_s, i;
   double t0, t1, get_utime();
+  //double get_utime();
+  struct timespec time1, time2;
+  
   long tot_in = 0,
        tot_out = 0,
        pos0, pos1;
@@ -689,7 +710,8 @@ int main (int argc, char *argv[])
   initialize(argc, argv); 
 
   /* Start timer (must be AFTER initialize()) */
-  t0 = get_utime();   
+  //t0 = clock();//get_utime();   
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 
   /* Compute the number of scans */
   /* Multiple scans only for PLANE_INT in this implementation */
@@ -1226,7 +1248,9 @@ int main (int argc, char *argv[])
   /* tot_out = (pos1-all_header)*8; */
   tot_out = pos1*8;
 
-  t1 = get_utime();
+  //t1 = clock();//get_utime();
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+  
 
   if (need_table)
     fprintf(msgfile, "Used the mapping table from file : %s\n",mappingtablefilename);
@@ -1241,8 +1265,12 @@ int main (int argc, char *argv[])
            tot_out,
            tot_in,tot_out/(double)tot_in, 
            (log((double)alpha)/log(2.0))*tot_in/tot_out);
-  fprintf(msgfile,"Time = %1.3f secs : %1.0f KSymbols/sec\n",t1-t0,
-          (tot_in)/(1024*(t1-t0)));
+  
+  //double time_elapsed = ((double)t1-t0)/CLOCKS_PER_SEC;
+  double time_elapsed = diff(time1,time2).tv_sec + diff(time1,time2).tv_nsec / 1e9;
+  
+  fprintf(msgfile,"Time = %1.6f secs : %1.0f KSymbols/sec\n",time_elapsed,
+		  (tot_in)/(1024*time_elapsed));
 
     return 0;                                       /* OK! */
 }
