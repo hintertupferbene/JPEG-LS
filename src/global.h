@@ -94,9 +94,9 @@
 
 #define DEFAULT_COLOR_MODE LINE_INT
 
-extern const char  plane_int_string[14],
-       line_int_string[10],
-       pixel_int_string[12];
+extern const char  plane_int_string[],
+       line_int_string[],
+       pixel_int_string[];
 
 
 #ifndef BIG_ENDIAN

@@ -103,9 +103,9 @@ int BPP,    /* bits per sample */
 
 
 /* define color mode strings */
-const char plane_int_string[14] = "plane by plane";
-const char line_int_string[10]  = "line intlv";
-const char pixel_int_string[12] = "sample intlv";
+const char plane_int_string[] = "plane by plane";
+const char line_int_string[]  = "line intlv";
+const char pixel_int_string[] = "sample intlv";
 
 
 /* function to print out error messages */
