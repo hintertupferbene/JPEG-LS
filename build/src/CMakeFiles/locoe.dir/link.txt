@@ -1,0 +1,1 @@
+/usr/bin/cc      CMakeFiles/locoe.dir/encoder.o  -o ../bin/locoe-2.3.0  -L/HOMES/heindel/eclipse_workspace/JPEG-LS/build/bin -rdynamic ../bin/libjpegls.a -lm 

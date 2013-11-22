@@ -1,0 +1,3 @@
+/HOMES/heindel/eclipse_workspace/JPEG-LS/build/src/CMakeFiles/jpegls.dir
+/HOMES/heindel/eclipse_workspace/JPEG-LS/build/src/CMakeFiles/locod.dir
+/HOMES/heindel/eclipse_workspace/JPEG-LS/build/src/CMakeFiles/locoe.dir
