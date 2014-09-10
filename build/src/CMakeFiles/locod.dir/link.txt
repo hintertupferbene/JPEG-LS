@@ -1,1 +1,0 @@
-/usr/bin/cc      CMakeFiles/locod.dir/decoder.o  -o ../bin/locod-2.3.0 -rdynamic ../bin/libjpegls.a 

@@ -1,2 +1,0 @@
-/usr/bin/ar cr ../bin/libjpegls.a  CMakeFiles/jpegls.dir/global.o CMakeFiles/jpegls.dir/jpegmark.o CMakeFiles/jpegls.dir/initialize.o CMakeFiles/jpegls.dir/lossless_d.o CMakeFiles/jpegls.dir/lossless_e.o CMakeFiles/jpegls.dir/lossy_d.o CMakeFiles/jpegls.dir/lossy_e.o CMakeFiles/jpegls.dir/bitio.o CMakeFiles/jpegls.dir/melcode.o
-/usr/bin/ranlib ../bin/libjpegls.a

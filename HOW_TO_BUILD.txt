@@ -1,0 +1,15 @@
+This file was created by Andreas Heindel.
+-----------------------------------------
+
+1. Create build directory:
+mkdir build
+
+2. Step into this directory and run cmake:
+cd build
+cmake ../
+
+3. Build the project:
+make
+
+
+Finally, the directory 'build/bin' contains binaries and a lib.
