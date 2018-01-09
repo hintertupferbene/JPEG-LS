@@ -5,14 +5,20 @@ Only minor modifications have been made (see history of this project).
 
 # How to build
 1. Create build directory:
-    mkdir build
+```
+mkdir build
+```
 
 2. Step into this directory and run cmake:
-    cd build
-    cmake ../
+```
+cd build
+cmake ../
+```
 
 3. Build the project:
-    make
+```
+make
+```
 
 
 Finally, the directory 'build/bin' contains binaries and a lib.
