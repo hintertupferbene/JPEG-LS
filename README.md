@@ -20,5 +20,7 @@ cmake ../
 make
 ```
 
-
 Finally, the directory 'build/bin' contains binaries and a lib.
+
+# How to run
+See file doc/README
